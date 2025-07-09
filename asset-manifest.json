@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/multi-llm-orchestration-platform/static/js/main.4a38e64b.js",
+    "index.html": "/multi-llm-orchestration-platform/index.html",
+    "main.4a38e64b.js.map": "/multi-llm-orchestration-platform/static/js/main.4a38e64b.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.4a38e64b.js"
+  ]
+}
