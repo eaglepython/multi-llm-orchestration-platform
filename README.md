@@ -9,7 +9,7 @@
 
 > **🌟 Revolutionary AI provider orchestration platform addressing Congressional concerns about vendor lock-in and market concentration in healthcare AI**
 
-**Created by [Joseph Bidias](https://github.com/eaglepython)** - *AI Governance Researcher & Congressional Policy Expert*
+**Created by [Joseph Bidias](https://github.com/eaglepython)** - *AI Engineer & Architect , Governance Researcher &  Policy Expert*
 
 ---
 
