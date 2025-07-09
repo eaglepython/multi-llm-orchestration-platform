@@ -1,4 +1,4 @@
-![Screenshot 2025-07-09 111941](https://github.com/user-attachments/assets/99908778-4799-4fbb-b172-623dcd70a335)
+![image](https://github.com/user-attachments/assets/ce54e461-ec7d-4545-a453-8d0e7ff437c0)
 
 # Multi-LLM Orchestration Platform
 
