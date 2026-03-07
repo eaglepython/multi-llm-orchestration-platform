@@ -1,56 +1,48 @@
+“””
+Mock providers for Anthropic Claude and Google Gemini.
+
+These simulate realistic latency, cost, and occasional failures so the
+routing engine can be fully exercised without additional API keys.
+In production, replace complete() with real API calls — the interface
+is identical to OpenAIProvider.
+“””
+
+import asyncio
+import random
 import time
-import os
-from typing import Optional
-import httpx
 from providers.base import BaseLLMProvider, ProviderResponse
 
-class OpenAIProvider(BaseLLMProvider):
+class AnthropicProvider(BaseLLMProvider):
 “””
-OpenAI GPT-4o-mini provider.
-Uses httpx directly (no SDK dependency) so the routing logic stays visible.
+Simulated Anthropic Claude Haiku provider.
+Cost: $0.00025/1k tokens | Avg latency: ~180ms | Reliability: 99.4%
 “””
 
 ```
-name = "OpenAI"
-cost_per_1k_tokens = 0.00015  # GPT-4o-mini input pricing ($/1k tokens)
-model = "gpt-4o-mini"
+name = "Anthropic"
+cost_per_1k_tokens = 0.00025
+model = "claude-haiku-3-simulated"
 
-def __init__(self, api_key: Optional[str] = None):
+def __init__(self):
     super().__init__()
-    self.api_key = api_key or os.getenv("OPENAI_API_KEY")
-    if not self.api_key:
-        raise ValueError("OPENAI_API_KEY not set")
-    self.base_url = "https://api.openai.com/v1"
-    self.headers = {
-        "Authorization": f"Bearer {self.api_key}",
-        "Content-Type": "application/json",
-    }
+    # Simulate occasional degradation
+    self._failure_rate = 0.006  # 0.6% failure rate
 
 async def complete(self, prompt: str, max_tokens: int = 512) -> ProviderResponse:
-    payload = {
-        "model": self.model,
-        "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": max_tokens,
-    }
+    # Simulate network latency (150–220ms range, occasionally spikes)
+    latency_ms = int(random.gauss(180, 25))
+    latency_ms = max(100, min(latency_ms, 500))
+    await asyncio.sleep(latency_ms / 1000)
 
-    start = time.monotonic()
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        response = await client.post(
-            f"{self.base_url}/chat/completions",
-            headers=self.headers,
-            json=payload,
-        )
-        response.raise_for_status()
+    if random.random() < self._failure_rate:
+        self.stats.record_failure()
+        raise ConnectionError("Anthropic: simulated transient error")
 
-    latency_ms = int((time.monotonic() - start) * 1000)
-    data = response.json()
-
-    tokens = data["usage"]["total_tokens"]
-    content = data["choices"][0]["message"]["content"]
+    tokens = len(prompt.split()) + max_tokens // 2
     cost = self.compute_cost(tokens)
+    content = f"[Anthropic Claude] Response to: '{prompt[:60]}...'"
 
     self.stats.record_success(latency_ms, cost, tokens)
-
     return ProviderResponse(
         content=content,
         tokens_used=tokens,
@@ -60,13 +52,48 @@ async def complete(self, prompt: str, max_tokens: int = 512) -> ProviderResponse
     )
 
 async def health_check(self) -> bool:
-    try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
-            r = await client.get(
-                f"{self.base_url}/models",
-                headers=self.headers,
-            )
-            return r.status_code == 200
-    except Exception:
-        return False
+    await asyncio.sleep(0.05)
+    return random.random() > 0.01  # 99% uptime
+```
+
+class GeminiProvider(BaseLLMProvider):
+“””
+Simulated Google Gemini Flash provider.
+Cost: $0.000075/1k tokens | Avg latency: ~160ms | Reliability: 98.9%
+“””
+
+```
+name = "Gemini"
+cost_per_1k_tokens = 0.000075  # Cheapest in the pool
+model = "gemini-1.5-flash-simulated"
+
+def __init__(self):
+    super().__init__()
+    self._failure_rate = 0.011  # Slightly higher failure rate
+
+async def complete(self, prompt: str, max_tokens: int = 512) -> ProviderResponse:
+    latency_ms = int(random.gauss(160, 30))
+    latency_ms = max(90, min(latency_ms, 450))
+    await asyncio.sleep(latency_ms / 1000)
+
+    if random.random() < self._failure_rate:
+        self.stats.record_failure()
+        raise ConnectionError("Gemini: simulated transient error")
+
+    tokens = len(prompt.split()) + max_tokens // 2
+    cost = self.compute_cost(tokens)
+    content = f"[Google Gemini] Response to: '{prompt[:60]}...'"
+
+    self.stats.record_success(latency_ms, cost, tokens)
+    return ProviderResponse(
+        content=content,
+        tokens_used=tokens,
+        cost_usd=cost,
+        latency_ms=latency_ms,
+        model=self.model,
+    )
+
+async def health_check(self) -> bool:
+    await asyncio.sleep(0.05)
+    return random.random() > 0.02
 ```
