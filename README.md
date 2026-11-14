@@ -1,12 +1,10 @@
-![image](https://github.com/user-attachments/assets/ce54e461-ec7d-4545-a453-8d0e7ff437c0)
-
 # Multi-LLM Orchestration Platform
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Revolutionary-blue?style=for-the-badge)](https://eaglepython.github.io/multi-llm-orchestration-platform)
-[![Congressional Oversight](https://img.shields.io/badge/🏛️_Congressional-Oversight_Ready-red?style=for-the-badge)](https://github.com/eaglepython/multi-llm-orchestration-platform)
-[![Antitrust Analysis](https://img.shields.io/badge/⚖️_Antitrust-Analysis-orange?style=for-the-badge)](https://github.com/eaglepython/multi-llm-orchestration-platform)
-[![MIT License](https://img.shields.io/badge/📄_License-MIT-green?style=for-the-badge)](LICENSE)
+![status](https://img.shields.io/badge/status-prototype-orange) ![license](https://img.shields.io/badge/license-MIT-green) ![built_with](https://img.shields.io/badge/built_with-React-61DAFB) ![styling](https://img.shields.io/badge/styling-Tailwind_CSS-38B2AC)
 
+![Dashboard screenshot](https://github.com/user-attachments/assets/ce54e461-ec7d-4545-a453-8d0e7ff437c0)
+
+*Screenshot of the demo. All figures shown are sample data.*
 
 A front-end prototype that explores how an organization could route requests across several AI model providers instead of depending on one.
 
