@@ -7,7 +7,6 @@
 [![Antitrust Analysis](https://img.shields.io/badge/⚖️_Antitrust-Analysis-orange?style=for-the-badge)](https://github.com/eaglepython/multi-llm-orchestration-platform)
 [![MIT License](https://img.shields.io/badge/📄_License-MIT-green?style=for-the-badge)](LICENSE)
 
-# Multi-LLM Orchestration Platform
 
 A front-end prototype that explores how an organization could route requests across several AI model providers instead of depending on one.
 
