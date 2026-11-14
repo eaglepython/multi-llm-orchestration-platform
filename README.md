@@ -1,39 +1,44 @@
+<div align="center">
+
 # Multi-LLM Orchestration Platform
 
-![status](https://img.shields.io/badge/status-prototype-orange) ![license](https://img.shields.io/badge/license-MIT-green) ![built_with](https://img.shields.io/badge/built_with-React-61DAFB) ![styling](https://img.shields.io/badge/styling-Tailwind_CSS-38B2AC)
+### A dashboard concept for routing requests across several AI providers to reduce single-vendor dependence.
 
-![Dashboard screenshot](https://github.com/user-attachments/assets/ce54e461-ec7d-4545-a453-8d0e7ff437c0)
+![Status](https://img.shields.io/badge/Status-Prototype-E67E22?style=flat-square)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI_(draft)-009688?style=flat-square&logo=fastapi&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Styling-Tailwind_CSS-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-2E7D32?style=flat-square)
 
-*Screenshot of the demo. All figures shown are sample data.*
+[**Live demo →**](https://eaglepython.github.io/multi-llm-orchestration-platform/)
 
-A front-end prototype that explores how an organization could route requests across several AI model providers instead of depending on one.
+<br/>
 
-**Status: prototype with sample data.** The dashboard does not call any AI provider. The provider status, costs, savings, and market share figures on screen are sample values typed into the source code.
+<img src="https://github.com/user-attachments/assets/ce54e461-ec7d-4545-a453-8d0e7ff437c0" alt="Dashboard" width="90%"/>
 
-Live demo: https://eaglepython.github.io/multi-llm-orchestration-platform
+</div>
+
+---
+
+> [!NOTE]
+> **Status: prototype with sample data.** The dashboard does not call any AI provider — the status, cost, savings, and market-share figures on screen are sample values. The backend is a design draft (see below).
 
 ## The idea
 
-When one vendor supplies the AI behind a critical service, the service inherits that vendor's outages, price changes, and failure modes. A routing layer that can choose among providers by cost, speed, and reliability, and fail over when one is down, reduces that dependence. This prototype shows what the controls and reporting for such a layer could look like.
+When one vendor supplies the AI behind a critical service, the service inherits that vendor's outages, price changes, and failure modes. A routing layer that can pick among providers by cost, speed, and reliability — and fail over when one is down — reduces that dependence. This project sketches the controls and reporting for such a layer.
 
-## What is in the repo
+## What's in the repo
 
-**`src/` (React front end).** A dashboard with five tabs: Overview, Analytics, Cost Optimization, an oversight view of market concentration, and Settings. All numbers are illustrative.
+### `src/` — React front end
+A dashboard with five tabs: Overview, Analytics, Cost Optimization, a market-concentration view, and Settings. All numbers are illustrative.
 
-**`Backend/` (design draft, not runnable yet).** A draft of a FastAPI service with a routing engine, a circuit breaker, and unit tests. The files were pasted in from a document and lost their formatting, so they do not run as committed. The design is:
+### `Backend/` — design draft (not runnable yet)
+A FastAPI service with a routing engine, a circuit breaker, and unit tests. The files were pasted from a document and lost their formatting, so they do not run as committed. The intended design:
 
 - Score each available provider on cost, latency, and reliability
-- Pick a provider by strategy: balanced, cheapest, fastest, or round robin
-- Skip a provider after three consecutive failures and retry it after a timeout
+- Select by strategy — balanced, cheapest, fastest, or round-robin
+- Trip a circuit breaker after repeated failures and retry after a timeout
 - Fall back to the next provider when a call fails
-
-In the draft, one provider is a real API integration and the others are simulated. The front end is not connected to the backend.
-
-## What I would build next
-
-- Restore the backend so it runs and its tests pass
-- Connect the dashboard to the backend's metrics endpoint
-- Replace simulated providers with real ones and measure actual cost and latency
 
 ## Run the front end locally
 
@@ -44,10 +49,14 @@ npm install
 npm start
 ```
 
+## Roadmap
+
+- Restore the backend so it runs and its tests pass
+- Connect the dashboard to the backend's metrics endpoint
+- Swap simulated providers for real ones and measure actual cost and latency
+
 ## Author
 
-Joseph Bidias
+**Joseph Bidias** — [github.com/eaglepython](https://github.com/eaglepython)
 
-## License
-
-MIT
+<sub>Released under the MIT License.</sub>
